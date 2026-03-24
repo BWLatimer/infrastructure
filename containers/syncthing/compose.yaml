@@ -1,0 +1,21 @@
+services:
+  syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    container_name: syncthing
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=US/Central
+    volumes:
+      - ./config:/config
+      - ./data1:/data1
+      - ./data2:/data2
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "Syncthing"
+      tsdproxy.container_port: 8384
+    ports:
+      - 8384:8384
+      - 22000:22000
+      - 22000:22000/udp
+    restart: unless-stopped

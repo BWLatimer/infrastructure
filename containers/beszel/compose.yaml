@@ -1,0 +1,14 @@
+services:
+  beszel:
+    image: docker.io/henrygd/beszel:latest
+    container_name: beszel
+    restart: unless-stopped
+    volumes:
+      - ./beszel_data:/beszel_data
+      - ./beszel_socket:/beszel_socket
+    ports:
+      - 8090:8090
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.container_port: 8090
+      tsdproxy.name: "Beszel"
