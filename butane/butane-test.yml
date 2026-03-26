@@ -1,0 +1,24 @@
+
+variant: fcos
+version: 1.7.0
+passwd:
+  users:
+    - name: bryce
+      ssh_authorized_keys:
+        - 
+      home_dir: /home/bryce
+      no_create_home: true
+      groups:
+        - wheel
+        - plugdev
+      shell: /bin/bash
+systemd:
+  units:
+    - name: forgejo.service
+      enabled: true
+      contents: |
+        [Unit]
+
+        [Service]
+
+        [Install]
