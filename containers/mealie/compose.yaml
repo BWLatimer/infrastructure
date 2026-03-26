@@ -1,0 +1,55 @@
+services:
+
+  mealie:
+    image: hkotel/mealie:v3.9.2
+    container_name: mealie
+    restart: unless-stopped
+    ports:
+      - "8082:9000"
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+    volumes:
+      - ./mealie-data:/app/data/
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "Mealie"
+    environment:
+      ALLOW_SIGNUP: "false"
+      PUID: 1000
+      PGID: 1000
+      TZ: America/Chicago
+      BASE_URL: https://barracuda-lionfish.ts.net
+    # Database Settings
+      DB_ENGINE: postgres
+      POSTGRES_USER: mealie
+      POSTGRES_PASSWORD: mealie
+      POSTGRES_SERVER: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: mealie
+     depends_on:
+       postgres:
+         condition: service_healthy
+
+  postgres:
+    container_name: mealie-postgres
+    image: postgres:17-alpine
+    restart: unless-stopped
+    volumes:
+      - ./mealie-pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: <mealie-pg-pswd>
+      POSTGRES_USER: <mealie-pg-usr>
+      PGUSER: mealie
+      POSTGRES_DB: mealie
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+volumes:
+  mealie-data:
+  mealie-pgdata:
+                               

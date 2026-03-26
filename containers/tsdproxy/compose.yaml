@@ -1,0 +1,14 @@
+services:
+  tsdproxy:
+    container_name: tsdproxy
+    image: docker.io/almeidapaulopt/tsdproxy:latest
+    ports:
+      - 8080:8080
+    volumes:
+      - <path/to/config>:/config
+      - dataDir:/data/
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+volumes:
+   dataDir:
+

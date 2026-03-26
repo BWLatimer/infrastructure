@@ -1,0 +1,15 @@
+services:
+  vaultwarden:
+    image: docker.io/vaultwarden/server:latest
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+    ports:
+      - 8081:80
+    environment:
+       - WEBSOCKET_ENABLED=true
+       - SIGNUPS_ALLOWED=false
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.name: "Vaultwarden"
+      tsdproxy.port: 8081
